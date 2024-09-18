@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  name        String?
+  fullname    String?
+  bio         String?
+  socials     Social[] // One-to-many relationship with Link
+  links       Link[]
+  experiences Experience[] // One-to-many relationship with Experience
+  skills      Skill[] // One-to-many relationship with Skill
+}
+
+model Social {
+  id       Int     @id @default(autoincrement())
+  platform String?
+  url      String?
+  userId   Int // Foreign key to User
+  user     User    @relation(fields: [userId], references: [id]) // Relation to User
+}
+
+model Link {
+  id     Int     @id @default(autoincrement())
+  name   String?
+  url    String?
+  userId Int
+  user   User    @relation(fields: [userId], references: [id])
+}
+
+model Experience {
+  id          Int       @id @default(autoincrement())
+  name        String?
+  description String?
+  place       String?
+  location    String?
+  type        String?
+  start_time  DateTime?
+  end_time    DateTime?
+  userId      Int // Foreign key to User
+  user        User      @relation(fields: [userId], references: [id]) // Relation to User
+}
+
+model Skill {
+  id          Int     @id @default(autoincrement())
+  name        String?
+  description String?
+  userId      Int // Foreign key to User
+  user        User    @relation(fields: [userId], references: [id]) // Relation to User
+}
