@@ -9,17 +9,17 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
-import { Skill } from "@/types/prisma";
+import { Experience } from "@/types/prisma";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export default function Delete({ data }: { data: Skill }) {
+export default function Delete({ data }: { data: Experience }) {
   const router = useRouter();
 
   // 2. Define a submit handler.
   async function onSubmit() {
     try {
-      const res = await fetch(`/api/skills/${data.id}`, {
+      const res = await fetch(`/api/experiences/${data.id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -28,18 +28,18 @@ export default function Delete({ data }: { data: Skill }) {
   
       if (res.ok) {
         // For successful deletion (including 204 No Content)
-        toast.success("Skill has been deleted successfully.");
+        toast.success("Experience has been deleted successfully.");
         router.refresh();
       } else {
         // For error responses from the server
         const errorData = await res.text();
         console.error("Server error:", errorData);
-        toast.error("Failed to delete Skill. Please try again.");
+        toast.error("Failed to delete Experience. Please try again.");
       }
     } catch (error) {
       // For network errors or other exceptions
       console.error("An error occurred:", error);
-      toast.error("Failed to delete Skill. Please try again.");
+      toast.error("Failed to delete Experience. Please try again.");
     }
   }
 
@@ -50,10 +50,10 @@ export default function Delete({ data }: { data: Skill }) {
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Create new skill</DialogTitle>
+          <DialogTitle>Delete experience</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          Are you sure to delete this skill?
+          Are you sure to delete this experience?
         </DialogDescription>
 
         <DialogClose asChild>
