@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Skill } from "@/types/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -37,7 +38,7 @@ const formSchema = z.object({
     }),
 });
 
-export default function Update({data}:{data: any}) {
+export default function Update({data}:{data: Skill}) {
 
   const router = useRouter()
   // 1. Define your form.

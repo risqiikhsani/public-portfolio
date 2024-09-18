@@ -9,10 +9,11 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog";
+import { Skill } from "@/types/prisma";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
-export default function Delete({ data }: { data: any }) {
+export default function Delete({ data }: { data: Skill }) {
   const router = useRouter();
 
   // 2. Define a submit handler.

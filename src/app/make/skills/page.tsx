@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import Create from "./_components/create";
 import {
   Card,
   CardContent,
@@ -7,8 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Update from "./_components/update";
+import { Skill } from "@/types/prisma";
+import Create from "./_components/create";
 import Delete from "./_components/delete";
+import Update from "./_components/update";
 
 const URL = process.env.NEXT_PUBLIC_URL;
 
@@ -31,7 +31,7 @@ export default async function Page() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {dynamicData.map((skill) => (
+          {dynamicData.map((skill: Skill) => (
             <Card
               key={skill.id}
               className="bg-white shadow-md hover:shadow-lg transition-shadow duration-300"
