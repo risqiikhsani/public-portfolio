@@ -1,24 +1,29 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
 } from "@/components/ui/dialog";
 import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Social } from "@/types/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -63,6 +68,7 @@ export default function Update({data}:{data: Social}) {
       const result = await res.json();
       console.log(result);
       toast.success("social has been updated successfully.");
+      form.reset()
       router.refresh()
     } catch (error) {
       console.error("An error occurred:", error);
@@ -81,16 +87,36 @@ export default function Update({data}:{data: Social}) {
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
+          <FormField
               control={form.control}
               name="platform"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>paltform</FormLabel>
-                  <FormControl>
-                    <Input placeholder="shadcn" {...field} />
-                  </FormControl>
-                  <FormDescription>This is the social name</FormDescription>
+                  <FormLabel>Platform</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select platform" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="facebook">
+                        facebook
+                      </SelectItem>
+                      <SelectItem value="instagram">
+                        instagram
+                      </SelectItem>
+                      <SelectItem value="email">
+                        email
+                      </SelectItem>
+                      <SelectItem value="linkedin">
+                        linkedin
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
@@ -100,17 +126,10 @@ export default function Update({data}:{data: Social}) {
               name="url"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>url</FormLabel>
+                  <FormLabel>URL</FormLabel>
                   <FormControl>
-                    <Textarea
-                      placeholder="Tell us a little bit about yourself"
-                      className="resize-none"
-                      {...field}
-                    />
+                  <Input placeholder="shadcn" {...field} />
                   </FormControl>
-                  <FormDescription>
-                    This is the social description
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

@@ -14,16 +14,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -31,7 +24,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const formSchema = z.object({
-  platform: z.string().min(2).max(50),
+  name: z.string().min(2).max(50),
   url: z.string().min(2).max(200),
 });
 
@@ -41,7 +34,7 @@ export default function Create() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      platform: "",
+      name: "",
       url: "https://",
     },
   });
@@ -51,7 +44,7 @@ export default function Create() {
     console.log(values);
 
     try {
-      const res = await fetch("/api/socials", {
+      const res = await fetch("/api/links", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,56 +58,35 @@ export default function Create() {
 
       const data = await res.json();
       console.log(data);
-      toast.success("Skill has been created successfully.");
-      form.reset()
+      toast.success("link has been created successfully.");
+      form.reset();
       router.refresh();
     } catch (error) {
       console.error("An error occurred:", error);
-      toast.error("Failed to create Skill. Please try again.");
+      toast.error("Failed to create link. Please try again.");
     }
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add new skill</Button>
+        <Button>Add new link</Button>
       </DialogTrigger>
       <DialogContent className="bg-white">
         <DialogHeader>
-          <DialogTitle>Create new skill</DialogTitle>
+          <DialogTitle>Create new link</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
-              name="platform"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Platform</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select platform" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="facebook">
-                        facebook
-                      </SelectItem>
-                      <SelectItem value="instagram">
-                        instagram
-                      </SelectItem>
-                      <SelectItem value="email">
-                        email
-                      </SelectItem>
-                      <SelectItem value="linkedin">
-                        linkedin
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <FormLabel>name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="website" {...field} />
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -126,7 +98,7 @@ export default function Create() {
                 <FormItem>
                   <FormLabel>URL</FormLabel>
                   <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                    <Input placeholder="shadcn" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
