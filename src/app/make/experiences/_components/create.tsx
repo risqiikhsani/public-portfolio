@@ -99,11 +99,12 @@ export default function Create() {
 
       const data = await res.json();
       console.log(data);
-      toast.success("Skill has been created successfully.");
+      toast.success("Experience has been created successfully.");
+      form.reset();
       router.refresh();
     } catch (error) {
       console.error("An error occurred:", error);
-      toast.error("Failed to create Skill. Please try again.");
+      toast.error("Failed to create Experience. Please try again.");
     }
   }
 
