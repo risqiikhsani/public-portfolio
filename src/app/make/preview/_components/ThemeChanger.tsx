@@ -15,6 +15,7 @@ import Theme1 from "../_theme/theme1";
 import Theme2 from "../_theme/theme2";
 import Theme3 from "../_theme/theme3";
 import Theme4 from "../_theme/theme4";
+import Theme5 from "../_theme/theme5";
 
 import { useEffect, useState } from "react";
 
@@ -38,6 +39,7 @@ export default function ThemeChanger({ user }: { user: User }) {
         {theme === "theme2" && <Theme2 user={user} />}
         {theme === "theme3" && <Theme3 user={user} />}
         {theme === "theme4" && <Theme4 user={user} />}
+        {theme === "theme5" && <Theme5 user={user} />}
 
         {/* Floating Navbar for Changing Theme */}
         <nav className="fixed bottom-10 w-full z-50">
@@ -59,7 +61,7 @@ export default function ThemeChanger({ user }: { user: User }) {
                   </SheetHeader>
 
                   {/* Buttons to change themes */}
-                  <div className="flex gap-2">
+                  <div className="flex flex-col gap-2">
                     <SheetClose asChild>
                       <Button
                         className="my-2"
@@ -93,6 +95,15 @@ export default function ThemeChanger({ user }: { user: User }) {
                       onClick={() => changeTheme("theme4")}
                     >
                       Cool blue 2
+                    </Button>
+                    </SheetClose>
+
+                    <SheetClose asChild>
+                    <Button
+                      className="my-2"
+                      onClick={() => changeTheme("theme5")}
+                    >
+                      Cool blue 3
                     </Button>
                     </SheetClose>
                   </div>
