@@ -14,6 +14,7 @@ import { User } from "@/types/prisma";
 import Theme1 from "../_theme/theme1";
 import Theme2 from "../_theme/theme2";
 import Theme3 from "../_theme/theme3";
+import Theme4 from "../_theme/theme4";
 
 import { useEffect, useState } from "react";
 
@@ -36,6 +37,7 @@ export default function ThemeChanger({ user }: { user: User }) {
         {theme === "theme1" && <Theme1 user={user} />}
         {theme === "theme2" && <Theme2 user={user} />}
         {theme === "theme3" && <Theme3 user={user} />}
+        {theme === "theme4" && <Theme4 user={user} />}
 
         {/* Floating Navbar for Changing Theme */}
         <nav className="fixed bottom-10 w-full z-50">
@@ -82,6 +84,15 @@ export default function ThemeChanger({ user }: { user: User }) {
                       onClick={() => changeTheme("theme3")}
                     >
                       Cool blue
+                    </Button>
+                    </SheetClose>
+
+                    <SheetClose asChild>
+                    <Button
+                      className="my-2"
+                      onClick={() => changeTheme("theme4")}
+                    >
+                      Cool blue 2
                     </Button>
                     </SheetClose>
                   </div>
