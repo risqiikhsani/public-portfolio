@@ -16,6 +16,7 @@ export default function Page() {
             { href: "/make/achievements", label: "Achievements" },
             { href: "/make/socials", label: "Social Media" },
             { href: "/make/links", label: "Additional Links" },
+            { href: "/make/preview", label: "Preview" }, 
           ].map((item) => (
             <Button
               key={item.href}

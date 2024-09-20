@@ -8,6 +8,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
             where: {
                 id: parseInt(id),
             },
+            include: {
+                skills: true,
+                experiences: true,
+                socials: true,
+                links: true,
+            },
         });
 
         if (!user) {
