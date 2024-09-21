@@ -1,6 +1,8 @@
+import SocialIcons from "@/components/SocialIcons";
 import { User } from "@/types/prisma";
 import { format } from "date-fns";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Theme1({ user }: { user: User }) {
   return (
@@ -21,15 +23,14 @@ export default function Theme1({ user }: { user: User }) {
       {/* Social Links */}
       <div className="mt-6 flex justify-center space-x-4">
         {user.socials.map((social) => (
-          <a
+          <Link
             key={social.id}
             href={social.url || "#"}
             target="_blank"
-            rel="noopener noreferrer"
             className="text-indigo-500 hover:text-indigo-700"
           >
-            {social.platform}
-          </a>
+            <SocialIcons name={social.platform}/>
+          </Link>
         ))}
       </div>
 

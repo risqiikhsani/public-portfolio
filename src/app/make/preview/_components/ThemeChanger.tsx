@@ -16,8 +16,41 @@ import Theme2 from "../_theme/theme2";
 import Theme3 from "../_theme/theme3";
 import Theme4 from "../_theme/theme4";
 import Theme5 from "../_theme/theme5";
+import Theme6 from "../_theme/theme6";
+import Theme7 from "../_theme/theme7";
 
 import { useEffect, useState } from "react";
+
+const themes = [
+  {
+    name:"theme1",
+    label:"Bluelist"
+  },
+  {
+    name:"theme2",
+    label:"Simpl blue"
+  },
+  {
+    name:"theme3",
+    label:"Simpl green"
+  },
+  {
+    name:"theme4",
+    label:"Simpl yellow"
+  },
+  {
+    name:"theme5",
+    label:"Simpl purple"
+  },
+  {
+    name:"theme6",
+    label:"Minimalist cool purple dark"
+  },
+  {
+    name:"theme7",
+    label:"Minimalist cool purple light"
+  },
+]
 
 export default function ThemeChanger({ user }: { user: User }) {
   const [theme, setTheme] = useState("theme1");
@@ -40,10 +73,13 @@ export default function ThemeChanger({ user }: { user: User }) {
         {theme === "theme3" && <Theme3 user={user} />}
         {theme === "theme4" && <Theme4 user={user} />}
         {theme === "theme5" && <Theme5 user={user} />}
+        {theme === "theme6" && <Theme6 user={user} />}
+        {theme === "theme7" && <Theme7 user={user} />}
+        
 
         {/* Floating Navbar for Changing Theme */}
         <nav className="fixed bottom-10 w-full z-50">
-          <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center bg-slate-800 opacity-70 rounded-2xl gap-2">
+          <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center bg-slate-800 opacity-70 rounded-2xl gap-2 border-2 border-yellow-100">
             <div className="text-2xl font-bold text-slate-100">
               Demo Preview
             </div>
@@ -62,50 +98,17 @@ export default function ThemeChanger({ user }: { user: User }) {
 
                   {/* Buttons to change themes */}
                   <div className="flex flex-col gap-2">
-                    <SheetClose asChild>
-                      <Button
-                        className="my-2"
-                        onClick={() => changeTheme("theme1")}
-                      >
-                        Bluelist
-                      </Button>
-                    </SheetClose>
-
-                    <SheetClose asChild>
-                    <Button
-                      className="my-2"
-                      onClick={() => changeTheme("theme2")}
-                    >
-                      Simpl blue
-                    </Button>
-                    </SheetClose>
-
-                    <SheetClose asChild>
-                    <Button
-                      className="my-2"
-                      onClick={() => changeTheme("theme3")}
-                    >
-                      Cool blue
-                    </Button>
-                    </SheetClose>
-
-                    <SheetClose asChild>
-                    <Button
-                      className="my-2"
-                      onClick={() => changeTheme("theme4")}
-                    >
-                      Cool blue 2
-                    </Button>
-                    </SheetClose>
-
-                    <SheetClose asChild>
-                    <Button
-                      className="my-2"
-                      onClick={() => changeTheme("theme5")}
-                    >
-                      Cool blue 3
-                    </Button>
-                    </SheetClose>
+                    {themes.map((theme) => (
+                      <SheetClose asChild key={theme.name}>
+                        <Button
+                          className="my-2"
+                          onClick={() => changeTheme(theme.name)}
+                        >
+                          {theme.label}
+                        </Button>
+                      </SheetClose>
+                    ))}
+                    
                   </div>
                 </SheetContent>
               </Sheet>

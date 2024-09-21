@@ -113,6 +113,24 @@ export default function Create() {
                       <SelectItem value="linkedin">
                         linkedin
                       </SelectItem>
+                      <SelectItem value="tiktok">
+                        tiktok
+                      </SelectItem>
+                      <SelectItem value="youtube">
+                        youtube
+                      </SelectItem>
+                      <SelectItem value="twitter">
+                        twitter
+                      </SelectItem>
+                      <SelectItem value="twitch">
+                        twitch
+                      </SelectItem>
+                      <SelectItem value="discord channel">
+                        discord channel
+                      </SelectItem>
+                      <SelectItem value="telegram channel">
+                        telegram channel
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

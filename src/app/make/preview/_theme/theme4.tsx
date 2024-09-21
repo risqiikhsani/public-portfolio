@@ -1,19 +1,9 @@
-import React from 'react';
-import Image from 'next/image';
+import SocialIcons from '@/components/SocialIcons';
 import { User } from '@/types/prisma';
 import { format } from 'date-fns';
-import { Linkedin, X, ExternalLink,} from 'lucide-react';
+import Image from 'next/image';
 
-const SocialIcon = ({ platform }:{platform?: string}) => {
-  switch (platform?.toLowerCase()) {
-    case 'linkedin':
-      return <Linkedin className="w-5 h-5" />;
-    case 'twitter':
-      return <X className="w-5 h-5" />;
-    default:
-      return <ExternalLink className="w-5 h-5" />;
-  }
-};
+
 
 export default function Theme4({ user }: { user: User }) {
   return (
@@ -43,7 +33,7 @@ export default function Theme4({ user }: { user: User }) {
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-teal-400 transition-colors"
               >
-                <SocialIcon platform={social.platform} />
+                <SocialIcons name={social.platform} />
               </a>
             ))}
           </div>
