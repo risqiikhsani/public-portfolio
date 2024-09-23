@@ -11,15 +11,18 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  name        String?
-  fullname    String?
-  bio         String?
-  socials     Social[] // One-to-many relationship with Link
-  links       Link[]
-  experiences Experience[] // One-to-many relationship with Experience
-  skills      Skill[] // One-to-many relationship with Skill
+  id           Int           @id @default(autoincrement())
+  email        String        @unique
+  name         String?
+  fullname     String?
+  bio          String?
+  socials      Social[] // One-to-many relationship with Link
+  links        Link[]
+  experiences  Experience[] // One-to-many relationship with Experience
+  skills       Skill[] // One-to-many relationship with Skill
+  educations   Education[]
+  projects     Project[]
+  achievements Achievement[]
 }
 
 model Social {
@@ -57,4 +60,35 @@ model Skill {
   description String?
   userId      Int // Foreign key to User
   user        User    @relation(fields: [userId], references: [id]) // Relation to User
+}
+
+model Education {
+  id          Int       @id @default(autoincrement())
+  school      String
+  degree      String?
+  field       String?
+  start_date  DateTime?
+  end_date    DateTime?
+  description String?
+  userId      Int // Foreign key to User
+  user        User      @relation(fields: [userId], references: [id]) // Relation to User
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  url         String?
+  userId      Int // Foreign key to User
+  user        User      @relation(fields: [userId], references: [id]) // Relation to User
+}
+
+model Achievement {
+  id          Int       @id @default(autoincrement())
+  title       String
+  description String?
+  date        DateTime?
+  url         String?
+  userId      Int // Foreign key to User
+  user        User      @relation(fields: [userId], references: [id]) // Relation to User
 }

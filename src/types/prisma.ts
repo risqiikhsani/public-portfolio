@@ -10,6 +10,40 @@ export interface User {
     links: Link[];
     experiences: Experience[];
     skills: Skill[];
+    educations: Education[];
+    projects: Project[];
+    achievements: Achievement[];
+  }
+
+  export interface Education {
+    id: number;
+    school: string | undefined;
+    degree: string | undefined;
+    field: string | undefined;
+    description: string | undefined;
+    start_date: Date | undefined;
+    end_date: Date | undefined;
+    userId: number;
+    user: User;
+  }
+
+  export interface Project {
+    id: number;
+    name: string | undefined;
+    description: string | undefined;
+    url: string | undefined;
+    userId: number;
+    user: User;
+  }
+
+  export interface Achievement {
+    id: number;
+    title: string | undefined;
+    description: string | undefined;
+    date: Date | undefined;
+    url: string | undefined;
+    userId: number;
+    user: User;
   }
   
   export interface Social {

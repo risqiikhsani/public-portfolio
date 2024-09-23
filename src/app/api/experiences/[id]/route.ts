@@ -48,7 +48,7 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     const { name,description,place,location,type,start_time,end_time } = body;
 
     try {
-        const updatedUser = await prisma.experience.update({
+        const updatedExperience = await prisma.experience.update({
             where: {
                 id: parseInt(id),
             },
@@ -63,13 +63,13 @@ export async function PUT(request: Request, { params }: { params: { id: string }
             },
         });
 
-        if (!updatedUser) {
-            return new Response("user not found", { status: 404 });
+        if (!updatedExperience) {
+            return new Response("Experience not found", { status: 404 });
         }
 
-        return Response.json(updatedUser);
+        return Response.json(updatedExperience);
     } catch (error) {
-        console.error("Error updating user:", error);
-        return new Response("Error updating user", { status: 500 });
+        console.error("Error updating Experience:", error);
+        return new Response("Error updating Experience", { status: 500 });
     }
 }
