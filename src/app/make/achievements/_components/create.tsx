@@ -1,151 +1,198 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import {Button} from "@/components/ui/button";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
 
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
+    Form,
+    FormControl, FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
 } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import {Input} from "@/components/ui/input";
+import {Textarea} from "@/components/ui/textarea";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useRouter} from "next/navigation";
+import {toast} from "sonner";
+import {useState} from "react";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {cn} from "@/lib/utils";
+import {format} from "date-fns";
+import {CalendarIcon} from "lucide-react";
+import {Calendar} from "@/components/ui/calendar";
+import CustomDialog from "@/components/CustomDialog";
 
 const formSchema = z.object({
-  title: z.string().min(2).max(50),
-  description: z
-    .string()
-    .min(10, {
-      message: "description must be at least 10 characters.",
-    })
-    .max(160, {
-      message: "description must not be longer than 30 characters.",
+    title: z.string().min(2).max(50),
+    description: z
+        .string()
+        .min(10, {
+            message: "description must be at least 10 characters.",
+        })
+        .max(160, {
+            message: "description must not be longer than 30 characters.",
+        }),
+    url: z.string().min(2).max(50),
+    date: z.date({
+        required_error: "A date is required.",
     }),
-  url: z.string().min(2).max(50)
 });
 
 export default function Create() {
-  
-  const router = useRouter();
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      url: "",
-    },
-  });
 
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const [dialogClose,setDialogClose] = useState(false);
 
-    try {
-      const res = await fetch("/api/achievements", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    const router = useRouter();
+    // 1. Define your form.
+    const form = useForm<z.infer<typeof formSchema>>({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            title: "",
+            description: "",
+            url: "",
+            date: undefined
         },
-        body: JSON.stringify(values),
-      });
+    });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
+    // 2. Define a submit handler.
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+        console.log(values);
 
-      const data = await res.json();
-      console.log(data);
-      toast.success("Achievement has been created successfully.");
-      form.reset();
-      router.refresh();
-    } catch (error) {
-      console.error("An error occurred:", error);
-      toast.error("Failed to create Achievement. Please try again.");
+        try {
+            const res = await fetch("/api/achievements", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(values),
+            });
+
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+
+            const data = await res.json();
+            console.log(data);
+            toast.success("Achievement has been created successfully.");
+            form.reset();
+            setDialogClose(true)
+            router.refresh();
+        } catch (error) {
+            console.error("An error occurred:", error);
+            toast.error("Failed to create Achievement. Please try again.");
+        }
     }
-  }
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Add new Achievement</Button>
-      </DialogTrigger>
-      <DialogContent className={"lg:max-w-screen-lg overflow-y-scroll max-h-screen bg-white"}>
-        <DialogHeader>
-          <DialogTitle>Create new Achievement</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="title"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>title</FormLabel>
-                  <FormControl>
-                    <Input placeholder="shadcn" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>job description</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Job description"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+    return (
+        <CustomDialog dialogName="create Achievement" buttonName="Create" isClose={dialogClose}>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <FormField
+                            control={form.control}
+                            name="title"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>Title</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="shadcn" {...field} />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>job description</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Description"
+                                            className="resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
 
-            <FormField
-              control={form.control}
-              name="url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>job url</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Job url"
-                      className="resize-none"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                        <FormField
+                            control={form.control}
+                            name="url"
+                            render={({field}) => (
+                                <FormItem>
+                                    <FormLabel>job url</FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Url"
+                                            className="resize-none"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
 
-            <DialogClose asChild>
-              <Button type="submit">Submit</Button>
-            </DialogClose>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
-  );
+                        <FormField
+                            control={form.control}
+                            name="date"
+                            render={({field}) => (
+                                <FormItem className="flex flex-col">
+                                    <FormLabel>Achieved date</FormLabel>
+                                    <Popover modal>
+                                        <PopoverTrigger asChild>
+                                            <FormControl>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-[240px] pl-3 text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    {field.value ? (
+                                                        format(field.value, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50"/>
+                                                </Button>
+                                            </FormControl>
+                                        </PopoverTrigger>
+                                        <PopoverContent className="w-auto p-0" align="start">
+                                            <Calendar
+                                                mode="single"
+                                                selected={field.value}
+                                                onSelect={field.onChange}
+                                                disabled={(date) =>
+                                                    date > new Date() || date < new Date("1900-01-01")
+                                                }
+                                                initialFocus
+                                            />
+                                        </PopoverContent>
+                                    </Popover>
+                                    <FormMessage/>
+                                </FormItem>
+                            )}
+                        />
+
+
+                        {/*<DialogClose asChild>*/}
+                        <Button type="submit">Submit</Button>
+                        {/*</DialogClose>*/}
+                    </form>
+                </Form>
+        </CustomDialog>
+    );
 }

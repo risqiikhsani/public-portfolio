@@ -44,6 +44,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Experience } from "@/types/prisma";
+import CustomDialog from "@/components/CustomDialog";
+import {useState} from "react";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),
@@ -67,6 +69,8 @@ const formSchema = z.object({
 });
 
 export default function Update({data}:{data:Experience}) {
+
+    const [closeDialog,setCloseDialog] = useState(false)
   
   const router = useRouter();
   // 1. Define your form.
@@ -103,6 +107,7 @@ export default function Update({data}:{data:Experience}) {
       const result = await res.json();
       console.log(result);
       toast.success("Experience has been created successfully.");
+      setCloseDialog(true)
       router.refresh();
     } catch (error) {
       console.error("An error occurred:", error);
@@ -111,14 +116,7 @@ export default function Update({data}:{data:Experience}) {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Update</Button>
-      </DialogTrigger>
-      <DialogContent className={"lg:max-w-screen-lg overflow-y-scroll max-h-screen bg-white"}>
-        <DialogHeader>
-          <DialogTitle>Update experience</DialogTitle>
-        </DialogHeader>
+    <CustomDialog dialogName={"Update Experience"} buttonName={"Update"} isClose={closeDialog}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -325,7 +323,7 @@ export default function Update({data}:{data:Experience}) {
             </DialogClose>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+    </CustomDialog>
+
   );
 }

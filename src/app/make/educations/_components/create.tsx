@@ -44,7 +44,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import {degreeOptions, fieldOptions} from "@/constants/educations";
-import React from "react";
+import React, {useState} from "react";
+import CustomDialog from "@/components/CustomDialog";
 
 const formSchema = z.object({
   school: z.string().min(2).max(50),
@@ -67,6 +68,8 @@ const formSchema = z.object({
 });
 
 export default function Create() {
+
+    const [closeDialog,setCloseDialog] = useState(false)
   
   const router = useRouter();
   // 1. Define your form.
@@ -103,6 +106,7 @@ export default function Create() {
       console.log(data);
       toast.success("education has been created successfully.");
       form.reset();
+      setCloseDialog(true)
       router.refresh();
     } catch (error) {
       console.error("An error occurred:", error);
@@ -111,14 +115,7 @@ export default function Create() {
   }
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Add new education</Button>
-      </DialogTrigger>
-      <DialogContent className={"lg:max-w-screen-lg overflow-y-scroll max-h-screen bg-white"}>
-        <DialogHeader>
-          <DialogTitle>Create new education</DialogTitle>
-        </DialogHeader>
+    <CustomDialog dialogName={"Create Education"} buttonName={"Create"} isClose={closeDialog}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
@@ -306,7 +303,6 @@ export default function Create() {
             </DialogClose>
           </form>
         </Form>
-      </DialogContent>
-    </Dialog>
+    </CustomDialog>
   );
 }

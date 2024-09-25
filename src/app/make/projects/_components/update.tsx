@@ -58,7 +58,7 @@ export default function Update({data}:{data:Project}) {
     console.log(values);
 
     try {
-      const res = await fetch(`/api/experiences/${data.id}`, {
+      const res = await fetch(`/api/projects/${data.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
