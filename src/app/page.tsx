@@ -10,6 +10,8 @@ export default function Page() {
                 <Link href={"/make"}>Make portfolio</Link>
             </Button>
             <h5>Total users : 100</h5>
+            <h2 className="font-bold text-amber-900">Test</h2>
+
         </div>
     )
 }

@@ -43,6 +43,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import {degreeOptions, fieldOptions} from "@/constants/educations";
+import React from "react";
 
 const formSchema = z.object({
   school: z.string().min(2).max(50),
@@ -75,8 +77,8 @@ export default function Create() {
       description: "",
       degree: "",
       field: "",
-      start_date: new Date(),
-      end_date: new Date(),
+      start_date: undefined,
+      end_date: undefined,
     },
   });
 
@@ -124,7 +126,7 @@ export default function Create() {
               name="school"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>school name</FormLabel>
+                  <FormLabel>School or university name</FormLabel>
                   <FormControl>
                     <Input placeholder="school" {...field} />
                   </FormControl>
@@ -137,10 +139,10 @@ export default function Create() {
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>description</FormLabel>
+                  <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Job description"
+                      placeholder="Tell more about the education"
                       className="resize-none"
                       {...field}
                     />
@@ -157,20 +159,22 @@ export default function Create() {
               name="field"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>field</FormLabel>
+                  <FormLabel>Field</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select degree" />
+                        <SelectValue placeholder="Select field" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="full-time">full-time</SelectItem>
-                      <SelectItem value="part-time">part-time</SelectItem>
-                      <SelectItem value="intern">intern</SelectItem>
+                        {fieldOptions.map((a: string) => (
+                            <SelectItem key={a} value={a}>
+                                {a}
+                            </SelectItem>
+                        ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -183,26 +187,25 @@ export default function Create() {
               name="degree"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>job degree</FormLabel>
+                  <FormLabel>Degree</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select degree work" />
+                        <SelectValue placeholder="Select degree" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="on-site">on-site</SelectItem>
-                      <SelectItem value="remote">remote</SelectItem>
-                      <SelectItem value="hybrid">hybrid</SelectItem>
+                        {degreeOptions.map((a: string) => (
+                            <SelectItem key={a} value={a}>
+                                {a}
+                            </SelectItem>
+                        ))}
+
                     </SelectContent>
                   </Select>
-                  <FormDescription>
-                    You can manage email addresses in your{" "}
-                    <Link href="/examples/forms">email settings</Link>.
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
