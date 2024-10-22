@@ -9,11 +9,18 @@ export default async function Page() {
   const response = await fetch(`${URL}/api/portfolios/${user_id}`, {
     cache: "no-store",
   });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  
   const dynamicData: User = await response.json();
 
   return (
     <>
      <ThemeChanger user={dynamicData}/>
+     
     </>
   );
 }

@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   // Get the userId from auth() -- if null, the user is not signed in
   const { userId } = auth();
 
   if (userId) {
+    redirect("/home")
     // Query DB for user specific information or display assets only to signed in users
   }
 
@@ -17,12 +19,8 @@ export default async function Page() {
     <div className="flex flex-col justify-center items-center min-h-screen">
       <h2>Welcome to Simple Portfolio Maker</h2>
       <Button variant="outline" className="m-4">
-        <Link href={"/make"}>Make portfolio</Link>
+        <Link href={"/home"}>Go to App</Link>
       </Button>
-      <h5>Total users : 100</h5>
-      <h2 className="font-bold text-amber-900">Test</h2>
-      <p>{"user id = " + userId}</p>
-      {/* <p>{"user = " + JSON.stringify(user) }</p> */}
     </div>
   );
 }

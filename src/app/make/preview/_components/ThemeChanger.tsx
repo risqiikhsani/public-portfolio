@@ -66,7 +66,7 @@ export default function ThemeChanger({ user }: { user: User }) {
 
   return (
     <>
-      <div className="relative min-h-screen bg-gray-50">
+      <div className="relative min-h-screen ">
         {/* Conditionally Render Theme */}
         {theme === "theme1" && <Theme1 user={user} />}
         {theme === "theme2" && <Theme2 user={user} />}

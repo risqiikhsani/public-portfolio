@@ -3,6 +3,7 @@
 export interface User {
     id: number;
     email: string;
+    clerk_id: string;
     name: string | undefined;
     fullname: string | undefined;
     bio: string | undefined;

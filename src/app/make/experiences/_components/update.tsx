@@ -7,12 +7,7 @@ import { z } from "zod";
 
 import { Calendar } from "@/components/ui/calendar";
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+  DialogClose
 } from "@/components/ui/dialog";
 import {
   Form,
@@ -37,15 +32,15 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 
+import CustomDialog from "@/components/CustomDialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Experience } from "@/types/prisma";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { toast } from "sonner";
-import { Experience } from "@/types/prisma";
-import CustomDialog from "@/components/CustomDialog";
-import {useState} from "react";
 
 const formSchema = z.object({
   name: z.string().min(2).max(50),

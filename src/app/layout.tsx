@@ -1,14 +1,12 @@
+import Appbar from "@/components/appbar";
+import { Toaster } from "@/components/ui/sonner";
+import {
+  ClerkProvider
+} from "@clerk/nextjs";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { Toaster } from "@/components/ui/sonner";
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import CheckAuth from "@/components/CheckAuth";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,13 +35,12 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <CheckAuth>
+          <Appbar/>
+          <div className="pt-16">
           {children}
+          </div>
+          </CheckAuth>
           <Toaster />
         </body>
       </html>
