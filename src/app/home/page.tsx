@@ -7,11 +7,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { User } from "@/types/prisma";
 import { auth } from "@clerk/nextjs/server";
 import Image from "next/image";
 import Link from "next/link";
 
+const URL = process.env.NEXT_PUBLIC_URL;
+
 export default async function Page() {
+
+  const response = await fetch(`${URL}/api/portfolios`,{ cache: 'no-store' })
+  const user: User[] = await response.json()
+
   const { userId } = auth();
 
   if (!userId) {
@@ -68,6 +75,16 @@ export default async function Page() {
           </CardFooter>
         </Card>
       ))}
+      <div className="flex flex-col">
+      {user.map((a,i) => (
+          <div key={i} className="p-2 border-2 bg-gray-500"> 
+            {a.id}
+            {a.email}
+            {a.clerk_id}
+          </div>
+      ))}
+      </div>
+      
     </div>
   );
 }

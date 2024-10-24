@@ -6,7 +6,7 @@ import {
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import CheckAuth from "@/components/CheckAuth";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,12 +35,10 @@ export default function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
-          <CheckAuth>
           <Appbar/>
           <div className="pt-16">
           {children}
           </div>
-          </CheckAuth>
           <Toaster />
         </body>
       </html>
